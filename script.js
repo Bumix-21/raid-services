@@ -1,6 +1,6 @@
 
 // Замените на ваш API или сайт:
-const API_URL = "https://bumix-21.github.io/raid-services/"; // <-- ВСТАВЬТЕ СЮДА СВОЙ URL
+const API_URL = https://hellhades.com/wp-json/hh-api/v3/event-timers"; // <-- ВСТАВЬТЕ СЮДА СВОЙ URL
 
 fetch(API_URL)
   .then(response => response.json())
