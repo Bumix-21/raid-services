@@ -1,0 +1,26 @@
+<div id="raid-events">
+  <h3>🔥 Актуальные ивенты Raid</h3>
+  <div id="events-list"></div>
+</div>
+
+<script>
+  fetch('https://ваш-сервер.ru/events.json')
+    .then(res => res.json())
+    .then(data => {
+      let html = '';
+      data.events.forEach(event => {
+        html += `
+          <div class="event">
+            <p><b>${event.name}</b> (${event.time_left})</p>
+            <p>${event.description}</p>
+          </div>
+        `;
+      });
+      document.getElementById('events-list').innerHTML = html;
+    });
+</script>
+
+<style>
+  #raid-events { font-family: Arial; padding: 10px; }
+  .event { margin-bottom: 15px; padding: 10px; background: #f5f5f5; }
+</style>
