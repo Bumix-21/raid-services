@@ -1,26 +1,61 @@
-<div id="raid-events">
-  <h3>🔥 Актуальные ивенты Raid</h3>
-  <div id="events-list"></div>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Raid Events Widget</title>
+  <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 15px;
+      background: #f5f5f5;
+    }
+    .event {
+      background: white;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .event h3 {
+      margin: 0 0 5px 0;
+      color: #2a5885;
+    }
+    .event p {
+      margin: 0;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>🔥 Актуальные ивенты Raid</h2>
+    <div id="events"></div>
+  </div>
 
-<script>
-  fetch('https://github.com/Bumix-21/raid-services/blob/main/events.json')
-    .then(res => res.json())
-    .then(data => {
-      let html = '';
-      data.events.forEach(event => {
-        html += `
-          <div class="event">
-            <p><b>${event.name}</b> (${event.time_left})</p>
+  <script>
+    // Загружаем данные с GitHub
+    fetch('https://bumix-21.github.io/raid-services/events.json')
+      .then(response => response.json())
+      .then(data => {
+        const eventsContainer = document.getElementById('events');
+        data.events.forEach(event => {
+          const eventElement = document.createElement('div');
+          eventElement.className = 'event';
+          eventElement.innerHTML = `
+            <h3>${event.name} (${event.time_left})</h3>
             <p>${event.description}</p>
-          </div>
-        `;
+          `;
+          eventsContainer.appendChild(eventElement);
+        });
+      })
+      .catch(error => {
+        console.error('Ошибка загрузки данных:', error);
+        document.getElementById('events').innerHTML = '<p>Не удалось загрузить ивенты. Попробуйте позже.</p>';
       });
-      document.getElementById('events-list').innerHTML = html;
-    });
-</script>
 
-<style>
-  #raid-events { font-family: Arial; padding: 10px; }
-  .event { margin-bottom: 15px; padding: 10px; background: #f5f5f5; }
-</style>
+    // Инициализация VK Bridge (для работы внутри ВК)
+    vkBridge.send('VKWebAppInit');
+  </script>
+</body>
+</html>
